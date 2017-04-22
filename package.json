@@ -1,0 +1,30 @@
+{
+  "name": "react-native-emoticons",
+  "version": "1.0.0",
+  "description": "react native emoticons component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiewang/react-native-emoticons.git"
+  },
+  "keywords": [
+    "react-native",
+    "emoticons",
+    "emoji"
+  ],
+  "author": "xiewang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xiewang/react-native-emoticons/issues"
+  },
+  "homepage": "https://github.com/xiewang/react-native-emoticons",
+  "dependencies": {
+    "emoji-datasource": "^2.4.4",
+    "lodash": "^4.17.4",
+    "react-native-scrollable-tab-view": "^0.6.5",
+    "string.fromcodepoint": "^0.2.1"
+  }
+}
