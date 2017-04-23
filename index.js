@@ -7,11 +7,14 @@ import {
     StyleSheet,
     Dimensions,
     TouchableWithoutFeedback,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 import styles from './style';
 import emojiData from 'emoji-datasource';
 import _ from 'lodash';
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import TabBar from './tab';
 
 const {height, width} = Dimensions.get('window');
 require('string.fromcodepoint');
@@ -43,16 +46,41 @@ class Emoticons extends React.Component {
         return _.mapValues(groupedData, group => group.map((value)=>this._charFromCode(value.unified)));
     }
 
+    _onChangeTab() {
+
+    }
+
     render() {
         const emoji = this.state.data['People'];
         return (
             <View style={styles.container}>
-                {emoji.map(vlaue =>
-                        <Text style={styles.emoji}
-                              key={vlaue}>
-                            {vlaue}
-                        </Text>
-                )}
+                <ScrollableTabView
+                    tabBarPosition='overlayBottom'
+                    renderTabBar={() => <TabBar {...this.props} newNote={this.state.newNote}/>}
+                    initialPage={0}
+                    onChangeTab={this._onChangeTab.bind(this)}
+                    tabBarActiveTextColor="#fc7d30"
+                    style={styles.scrollTable}
+                    tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
+                    >
+
+                    <View
+                        tabLabel="ios-home-outline"
+                        >
+                        <View style={styles.cateView}>
+                            {emoji.map(vlaue =>
+                                    <Text style={styles.emoji}
+                                          key={vlaue}>
+                                        {vlaue}
+                                    </Text>
+                            )}
+                        </View>
+
+                    </View>
+                    <ScrollView tabLabel="md-camera" style={styles.tabView}>
+                    </ScrollView>
+                </ScrollableTabView>
+
             </View>
         )
     }
