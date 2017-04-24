@@ -15,6 +15,7 @@ import emojiData from 'emoji-datasource';
 import _ from 'lodash';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import TabBar from './tab';
+import TabBarDot from './tabDot';
 
 const {height, width} = Dimensions.get('window');
 require('string.fromcodepoint');
@@ -52,11 +53,34 @@ class Emoticons extends React.Component {
 
     render() {
         const emoji = this.state.data['People'];
+        const groups = Math.ceil(emoji.length / 28);
+
+        let groupView = [];
+        for (let i = 0; i < groups; i++) {
+            let ge = _.slice(emoji,i*24, (i+1)*24);
+            groupView.push(
+                <View style={styles.groupView} key={'group'+i} tabLabel={'group'+i}>
+                    {
+                        ge.map((vlaue,key) => {
+                                return (
+                                    <Text style={styles.emoji}
+                                          key={vlaue}>
+                                        {vlaue}
+                                    </Text>
+                                )
+
+                            }
+                        )
+                    }
+                </View>
+            );
+        }
+
         return (
             <View style={styles.container}>
                 <ScrollableTabView
                     tabBarPosition='overlayBottom'
-                    renderTabBar={() => <TabBar {...this.props} newNote={this.state.newNote}/>}
+                    renderTabBar={() => <TabBar {...this.props}/>}
                     initialPage={0}
                     onChangeTab={this._onChangeTab.bind(this)}
                     tabBarActiveTextColor="#fc7d30"
@@ -66,15 +90,21 @@ class Emoticons extends React.Component {
 
                     <View
                         tabLabel="ios-home-outline"
+                        style={styles.cateView}
                         >
-                        <View style={styles.cateView}>
-                            {emoji.map(vlaue =>
-                                    <Text style={styles.emoji}
-                                          key={vlaue}>
-                                        {vlaue}
-                                    </Text>
-                            )}
-                        </View>
+                        <ScrollableTabView
+                            tabBarPosition='bottom'
+                            renderTabBar={() => <TabBarDot {...this.props} />}
+                            initialPage={0}
+                            tabBarActiveTextColor="#fc7d30"
+                            style={styles.scrollGroupTable}
+                            tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
+                            >
+
+                            {
+                                groupView
+                            }
+                        </ScrollableTabView>
 
                     </View>
                     <ScrollView tabLabel="md-camera" style={styles.tabView}>

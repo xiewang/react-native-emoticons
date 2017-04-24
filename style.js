@@ -28,15 +28,22 @@ const styles = StyleSheet.create({
         height: 50
     },
     scrollTable: {
-        width: width,
+        width: width
+    },
+    scrollGroupTable: {
+        paddingBottom: 50
     },
     cateView: {
+        flex: 1
+    },
+    groupView: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         paddingLeft: 15,
         paddingRight: 15,
+        paddingTop: 15
     },
     tab: {
         alignItems: 'center',
@@ -56,8 +63,31 @@ const styles = StyleSheet.create({
         borderLeftWidth: 0,
         borderRightWidth: 0,
         borderTopColor: 'rgba(178,178,178,0.3)',
-        backgroundColor: 'rgba(255,255,255,2)',
+        backgroundColor: 'rgba(255,255,255,1)',
     },
+    tabsDot: {
+        height: 40,
+        width: width,
+        flexDirection: 'row',
+        borderWidth: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    tabDot: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 5,
+        marginRight: 5
+    },
+    dot: {
+        backgroundColor: '#f1f1f1',
+        width: 6,
+        height: 6,
+        borderRadius: 3,
+    }
 });
 
 export default styles;
