@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     Navigator,
     InteractionManager,
-    Platform
+    Platform,
+    ScrollView
 } from 'react-native';
 import styles from './style';
 
@@ -39,19 +40,26 @@ class TabBar extends React.Component {
         this.props.goToPage(i);
     }
 
-    componentWillReceiveProps(){
+    componentWillReceiveProps() {
     }
 
     render() {
-        return (<View style={[styles.tabs, this.props.style, ]}>
-            {this.props.tabs.map((tab, i) => {
-                return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
-                                         key={tab} onPress={() => this._onIconPress(i)}
-                                         style={[styles.tab,{backgroundColor: (this.props.activeTab === i? '#f1f1f1': '#fff')}]}>
-                    <Text style={{fontSize: 25}}>{this.props.tabs[i]}</Text>
-                </TouchableOpacity>;
-            })}
-        </View>);
+        return (
+            <View style={[styles.tabs, this.props.style, ]}>
+                <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    >
+                    {this.props.tabs.map((tab, i) => {
+                        return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
+                                                 key={tab} onPress={() => this._onIconPress(i)}
+                                                 style={[styles.tab,{backgroundColor: (this.props.activeTab === i? '#f1f1f1': '#fff')}]}>
+                            <Text style={{fontSize: 25}}>{this.props.tabs[i]}</Text>
+                        </TouchableOpacity>;
+                    })}
+                </ScrollView>
+
+            </View>);
     }
 }
 

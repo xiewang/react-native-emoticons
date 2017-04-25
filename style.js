@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 25,
         lineHeight: 50,
+
+    },
+    emojiTouch:{
         width: 50,
         height: 50
     },

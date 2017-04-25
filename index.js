@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{PropTypes} from 'react';
 import {
     Text,
     View,
@@ -8,7 +8,8 @@ import {
     Dimensions,
     TouchableWithoutFeedback,
     Image,
-    ScrollView
+    ScrollView,
+    TouchableHighlight
 } from 'react-native';
 import styles from './style';
 import emojiData from 'emoji-datasource';
@@ -21,11 +22,13 @@ const {height, width} = Dimensions.get('window');
 require('string.fromcodepoint');
 
 const categories = ['People', 'Nature', 'Foods', 'Activity', 'Places', 'Objects', 'Symbols', 'Flags'];
+const filters = ['white_frowning_face'];
 
 class Emoticons extends React.Component {
     constructor(props) {
         super(props);
         this._classify = this._classify.bind(this);
+        this._onEmoticonPress = this._onEmoticonPress.bind(this);
         this.state = {
             data: this._classify()
         }
@@ -42,32 +45,54 @@ class Emoticons extends React.Component {
     }
 
     _classify() {
-        const sortedData = _.orderBy(emojiData, 'sort_order');
+        const filteredData = emojiData.filter(e=> !_.includes(filters, e.short_name));
+        const sortedData = _.orderBy(filteredData, 'sort_order');
         const groupedData = _.groupBy(sortedData, 'category');
-        return _.mapValues(groupedData, group => group.map((value)=>this._charFromCode(value.unified)));
+
+        return _.mapValues(groupedData, group => group.map((value)=>{
+                return {
+                    code: this._charFromCode(value.unified),
+                    name: value.short_name
+                }
+
+        }));
     }
 
     _onChangeTab() {
 
     }
 
+    _onEmoticonPress(val) {
+        if(this.props.onEmoticonPress)
+            this.props.onEmoticonPress(val);
+    }
+
     render() {
 
         const the = this;
-        let group = emoji =>{
+        let group = emoji => {
             let groupView = [];
             const blocks = Math.ceil(emoji.length / 28);
             for (let i = 0; i < blocks; i++) {
-                let ge = _.slice(emoji,i*24, (i+1)*24);
+                let ge = _.slice(emoji, i * 24, (i + 1) * 24);
                 groupView.push(
-                    <View style={styles.groupView} key={'group'+i} tabLabel={'group'+i}>
+                    <View style={styles.groupView} key={emoji[0]['name']+'block'+i} tabLabel={emoji[0]['name']+'block'+i}>
                         {
-                            ge.map((vlaue,key) => {
+                            ge.map((value, key) => {
                                     return (
-                                        <Text style={styles.emoji}
-                                              key={vlaue}>
-                                            {vlaue}
+                                    <TouchableHighlight
+                                        underlayColor={'#f1f1f1'}
+                                        onPress={()=>this._onEmoticonPress(value)}
+                                        style={styles.emojiTouch}
+                                        key={value.name}
+                                        >
+                                        <Text
+                                            style={styles.emoji}
+                                             >
+                                            {value.code}
                                         </Text>
+                                    </TouchableHighlight>
+
                                     )
 
                                 }
@@ -81,11 +106,11 @@ class Emoticons extends React.Component {
 
 
         let groupsView = [];
-        _.each(categories,(value,key)=>{
+        _.each(categories, (value, key)=> {
             const groupView = group(the.state.data[value]);
             groupsView.push(
                 <View
-                    tabLabel={the.state.data[value][0]}
+                    tabLabel={the.state.data[value][0]['code']}
                     style={styles.cateView}
                     key={value}
                     >
@@ -97,7 +122,6 @@ class Emoticons extends React.Component {
                         style={styles.scrollGroupTable}
                         tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
                         >
-
                         {
                             groupView
                         }
@@ -108,7 +132,7 @@ class Emoticons extends React.Component {
         });
 
         return (
-            <View style={styles.container}>
+            <View style={[this.props.style,styles.container]}>
                 <ScrollableTabView
                     tabBarPosition='overlayBottom'
                     renderTabBar={() => <TabBar {...this.props}/>}
@@ -118,10 +142,7 @@ class Emoticons extends React.Component {
                     style={styles.scrollTable}
                     tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
                     >
-
-
                     {groupsView}
-
                 </ScrollableTabView>
 
             </View>
@@ -129,5 +150,9 @@ class Emoticons extends React.Component {
     }
 }
 
+Emoticons.propTypes = {
+    onEmoticonPress: PropTypes.func.isRequired,
+    style: View.propTypes.style
+};
 
 export default Emoticons;
