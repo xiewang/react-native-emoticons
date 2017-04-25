@@ -52,29 +52,60 @@ class Emoticons extends React.Component {
     }
 
     render() {
-        const emoji = this.state.data['People'];
-        const groups = Math.ceil(emoji.length / 28);
 
-        let groupView = [];
-        for (let i = 0; i < groups; i++) {
-            let ge = _.slice(emoji,i*24, (i+1)*24);
-            groupView.push(
-                <View style={styles.groupView} key={'group'+i} tabLabel={'group'+i}>
-                    {
-                        ge.map((vlaue,key) => {
-                                return (
-                                    <Text style={styles.emoji}
-                                          key={vlaue}>
-                                        {vlaue}
-                                    </Text>
-                                )
+        const the = this;
+        let group = emoji =>{
+            let groupView = [];
+            const blocks = Math.ceil(emoji.length / 28);
+            for (let i = 0; i < blocks; i++) {
+                let ge = _.slice(emoji,i*24, (i+1)*24);
+                groupView.push(
+                    <View style={styles.groupView} key={'group'+i} tabLabel={'group'+i}>
+                        {
+                            ge.map((vlaue,key) => {
+                                    return (
+                                        <Text style={styles.emoji}
+                                              key={vlaue}>
+                                            {vlaue}
+                                        </Text>
+                                    )
 
-                            }
-                        )
-                    }
+                                }
+                            )
+                        }
+                    </View>
+                );
+            }
+            return groupView;
+        };
+
+
+        let groupsView = [];
+        _.each(categories,(value,key)=>{
+            const groupView = group(the.state.data[value]);
+            groupsView.push(
+                <View
+                    tabLabel={the.state.data[value][0]}
+                    style={styles.cateView}
+                    key={value}
+                    >
+                    <ScrollableTabView
+                        tabBarPosition='bottom'
+                        renderTabBar={() => <TabBarDot {...the.props} />}
+                        initialPage={0}
+                        tabBarActiveTextColor="#fc7d30"
+                        style={styles.scrollGroupTable}
+                        tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
+                        >
+
+                        {
+                            groupView
+                        }
+                    </ScrollableTabView>
+
                 </View>
             );
-        }
+        });
 
         return (
             <View style={styles.container}>
@@ -88,27 +119,9 @@ class Emoticons extends React.Component {
                     tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
                     >
 
-                    <View
-                        tabLabel="ios-home-outline"
-                        style={styles.cateView}
-                        >
-                        <ScrollableTabView
-                            tabBarPosition='bottom'
-                            renderTabBar={() => <TabBarDot {...this.props} />}
-                            initialPage={0}
-                            tabBarActiveTextColor="#fc7d30"
-                            style={styles.scrollGroupTable}
-                            tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
-                            >
 
-                            {
-                                groupView
-                            }
-                        </ScrollableTabView>
+                    {groupsView}
 
-                    </View>
-                    <ScrollView tabLabel="md-camera" style={styles.tabView}>
-                    </ScrollView>
                 </ScrollableTabView>
 
             </View>
