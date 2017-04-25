@@ -17,6 +17,8 @@ import _ from 'lodash';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import TabBar from './tab';
 import TabBarDot from './tabDot';
+import stringify from './stringify';
+import parse from './parse';
 
 const {height, width} = Dimensions.get('window');
 require('string.fromcodepoint');
@@ -65,7 +67,6 @@ class Emoticons extends React.Component {
                     code: this._charFromCode(value.unified),
                     name: value.short_name
                 }
-
         }));
     }
 
@@ -167,4 +168,8 @@ Emoticons.propTypes = {
     show: PropTypes.bool
 };
 
-export default Emoticons;
+export {
+    Emoticons as default,
+    stringify as stringify,
+    parse as parse
+}
