@@ -40,9 +40,6 @@ class TabBar extends React.Component {
     }
 
     componentWillReceiveProps(){
-        if(this.props.newNote) {
-            this.tabComponent[4].props.onPress();
-        }
     }
 
     render() {

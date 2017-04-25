@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         height: 300,
+        width: width,
+        position: 'absolute',
+        bottom: 0,
+        left:0
     },
     emoji: {
         textAlign: 'center',
@@ -34,7 +38,7 @@ const styles = StyleSheet.create({
         paddingBottom: 50
     },
     cateView: {
-        flex: 1
+        flex: 1,
     },
     groupView: {
         flex: 1,
