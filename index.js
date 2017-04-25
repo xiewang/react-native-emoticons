@@ -30,7 +30,8 @@ class Emoticons extends React.Component {
         this._classify = this._classify.bind(this);
         this._onEmoticonPress = this._onEmoticonPress.bind(this);
         this.state = {
-            data: this._classify()
+            data: this._classify(),
+            position: new Animated.Value(this.props.show? 0: -300)
         }
     }
 
@@ -38,6 +39,16 @@ class Emoticons extends React.Component {
     }
 
     componentWillMount() {
+    }
+
+    componentDidUpdate() {
+        Animated.timing(
+            this.state.position,
+            {
+                duration: 300,
+                toValue: this.props.show? 0: -300
+            }
+        ).start();
     }
 
     _charFromCode(utf16) {
@@ -132,7 +143,7 @@ class Emoticons extends React.Component {
         });
 
         return (
-            <View style={[this.props.style,styles.container]}>
+            <Animated.View style={[this.props.style,styles.container,{bottom: this.state.position}]}>
                 <ScrollableTabView
                     tabBarPosition='overlayBottom'
                     renderTabBar={() => <TabBar {...this.props}/>}
@@ -145,14 +156,15 @@ class Emoticons extends React.Component {
                     {groupsView}
                 </ScrollableTabView>
 
-            </View>
+            </Animated.View>
         )
     }
 }
 
 Emoticons.propTypes = {
     onEmoticonPress: PropTypes.func.isRequired,
-    style: View.propTypes.style
+    style: View.propTypes.style,
+    show: PropTypes.bool
 };
 
 export default Emoticons;
