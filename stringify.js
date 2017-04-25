@@ -5,10 +5,9 @@ require('string.fromcodepoint');
 const stringify = (text) => {
     let result = '';
     _.each(emojiData, (value, key) => {
-        const code = String.fromCodePoint(...value.unified.split('-').map(u => '0x' + u));
-        const pointAt = code.codePointAt();
+        const emoji = String.fromCodePoint(...value.unified.split('-').map(u => '0x' + u));
+        const pointAt = emoji.codePointAt();
         emojiData[key].pointAt = pointAt;
-
 
     });
 
@@ -19,7 +18,7 @@ const stringify = (text) => {
             return o.pointAt == value.codePointAt();
         });
         if (index > -1) {
-            result += '[' + emojiData[index]['short_name'] + ']';
+            result += '[' + emojiData[index]['name'] + ']';
         } else {
             result += value;
         }
