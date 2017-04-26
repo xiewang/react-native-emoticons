@@ -1,6 +1,8 @@
 # React Native Emoticons
 react native emoticons component, including emoji
 
+![emoticons](docs/emoticons.gif)
+
 ## Install
 
 ```js
