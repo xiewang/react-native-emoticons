@@ -67,3 +67,7 @@ import * as emoticons from 'react-native-emoticons';
 	//output
 	'This is source emoji 😁'
 	```
+
+## Further
+	
+###	Support custom emoticons like `weixin`
