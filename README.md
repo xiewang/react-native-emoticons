@@ -31,6 +31,7 @@ npm install react-native-emoticons
 	```js
 	<Emoticons
         onEmoticonPress={this._onEmoticonPress.bind(this)}
+		 onBackspacePress={this._onBackspacePress.bind(this)}
         show={this.state.showEmoticons}
      />
 	```
