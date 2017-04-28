@@ -25,6 +25,7 @@ require('string.fromcodepoint');
 
 const categories = ['People', 'Nature', 'Foods', 'Activity', 'Places', 'Objects', 'Symbols', 'Flags'];
 const filters = ['white_frowning_face'];
+const blockIconNum = 23;
 
 class Emoticons extends React.Component {
     constructor(props) {
@@ -79,14 +80,19 @@ class Emoticons extends React.Component {
             this.props.onEmoticonPress(val);
     }
 
+    _onBackspacePress() {
+        if(this.props.onBackspacePress)
+            this.props.onBackspacePress();
+    }
+
     render() {
 
         const the = this;
         let group = emoji => {
             let groupView = [];
-            const blocks = Math.ceil(emoji.length / 28);
+            const blocks = Math.ceil(emoji.length / blockIconNum);
             for (let i = 0; i < blocks; i++) {
-                let ge = _.slice(emoji, i * 24, (i + 1) * 24);
+                let ge = _.slice(emoji, i * blockIconNum, (i + 1) * blockIconNum);
                 groupView.push(
                     <View style={styles.groupView} key={emoji[0]['name']+'block'+i} tabLabel={emoji[0]['name']+'block'+i}>
                         {
@@ -110,6 +116,16 @@ class Emoticons extends React.Component {
                                 }
                             )
                         }
+                        <TouchableOpacity
+                            onPress={()=>this._onBackspacePress()}
+                            style={styles.emojiTouch}
+                            >
+                            <Image
+                                resizeMode={'contain'}
+                                style={styles.backspace}
+                                source={require('./backspace.png')}/>
+                        </TouchableOpacity>
+
                     </View>
                 );
             }

@@ -32,7 +32,9 @@ const styles = StyleSheet.create({
     },
     emojiTouch:{
         width: 50,
-        height: 50
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     scrollTable: {
         width: width
@@ -94,6 +96,11 @@ const styles = StyleSheet.create({
         width: 6,
         height: 6,
         borderRadius: 3,
+    },
+    backspace:{
+        width:30,
+        height:30,
+        opacity: .5
     }
 });
 
