@@ -3,7 +3,7 @@ react native emoticons component, including emoji
 
 ![emoticons](docs/emoticons.gif)
 
-### lastest sample screenshot
+### latest screenshot sample
 ![emoticons](docs/sample.png )
 
 <!--![Markdown](http://i2.muimg.com/1949/cda818de0596cd04.gif)-->
@@ -26,7 +26,7 @@ npm install react-native-emoticons
 	```
 - step 2
 
-	Write the compoent code in proper place of your page render.
+	Write the component code in the proper place of your page render.
 	
 	```js
 	<Emoticons
@@ -35,7 +35,7 @@ npm install react-native-emoticons
         show={this.state.showEmoticons}
      />
 	```
-	> **Tip:**  The attribute `onEmoticonPress ` can get the emoticos results like `{code:'😁', name: 'GRIMACING FACE'}`. The attribute `show ` will control that if the component is visible.
+	> **Tip:**  The attribute `onEmoticonPress ` can get the emoticos results like `{code:'😁', name: 'GRIMACING FACE'}`. The attribute `show ` will control that if the component is visible.  The attribute `onBackspacePress ` will add a function for backspace button. 
 	
 ### API
 
