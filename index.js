@@ -26,6 +26,12 @@ require('string.fromcodepoint');
 const categories = ['People', 'Nature', 'Foods', 'Activity', 'Places', 'Objects', 'Symbols', 'Flags'];
 const filters = ['white_frowning_face'];
 const blockIconNum = 23;
+const choiceness = ['grinning', 'grin', 'joy', 'sweat_smile', 'laughing', 'wink', 'blush', 'yum', 'heart_eyes', 'kissing_heart',
+    'kissing_smiling_eyes', 'stuck_out_tongue_winking_eye', 'sunglasses', 'smirk', 'unamused', 'thinking_face',
+    'flushed', 'rage', 'triumph', 'sob', 'mask', 'sleeping', 'zzz', 'hankey', 'ghost', '+1', '-1', 'facepunch', 'v',
+    'ok_hank', 'muscle', 'pray', 'point_up', 'lips', 'womans_hat', 'purse', 'crown', 'dog', 'panda_face', 'pig',
+    'earth_asia', 'cherry_blossom', 'sunny', 'thunder_cloud_and_rain', 'zap', 'snowflake', 'birthday', 'lollipop',
+    'beers', 'popcorn', 'soccer', 'airplane', 'iphone', 'tada', 'heart', 'broken_heart', 'flag_us', 'flag_cn'];
 
 class Emoticons extends React.Component {
     constructor(props) {
@@ -33,8 +39,8 @@ class Emoticons extends React.Component {
         this._classify = this._classify.bind(this);
         this._onEmoticonPress = this._onEmoticonPress.bind(this);
         this.state = {
-            data: this._classify(),
-            position: new Animated.Value(this.props.show? 0: -300)
+            data: [],
+            position: new Animated.Value(this.props.show ? 0 : -300)
         }
     }
 
@@ -42,6 +48,7 @@ class Emoticons extends React.Component {
     }
 
     componentWillMount() {
+        this._classify();
     }
 
     componentDidUpdate() {
@@ -49,7 +56,7 @@ class Emoticons extends React.Component {
             this.state.position,
             {
                 duration: 300,
-                toValue: this.props.show? 0: -300
+                toValue: this.props.show ? 0 : -300
             }
         ).start();
     }
@@ -59,16 +66,33 @@ class Emoticons extends React.Component {
     }
 
     _classify() {
-        const filteredData = emojiData.filter(e=> !_.includes(filters, e.short_name));
-        const sortedData = _.orderBy(filteredData, 'sort_order');
-        const groupedData = _.groupBy(sortedData, 'category');
+        let filteredData = emojiData.filter(e=> !_.includes(filters, e.short_name));
+        let sortedData = _.orderBy(filteredData, 'sort_order');
+        let groupedData = _.groupBy(sortedData, 'category');
 
-        return _.mapValues(groupedData, group => group.map((value)=>{
+        if (this.props.concise) {
+            filteredData = emojiData.filter(e=> _.includes(choiceness, e.short_name));
+            const temp = [];
+            _.mapKeys(filteredData, (value)=> {
+                temp.push( {
+                    code: this._charFromCode(value.unified),
+                    name: value.short_name
+                });
+            });
+            _.each(choiceness,(value)=>{
+                const one = temp.filter(e=> _.includes([value], e.name));
+                if(one[0])
+                    this.state.data.push(one[0]);
+            });
+        } else {
+            this.state.data = _.mapValues(groupedData, group => group.map((value)=> {
                 return {
                     code: this._charFromCode(value.unified),
                     name: value.short_name
                 }
-        }));
+            }));
+        }
+
     }
 
     _onChangeTab() {
@@ -76,12 +100,12 @@ class Emoticons extends React.Component {
     }
 
     _onEmoticonPress(val) {
-        if(this.props.onEmoticonPress)
+        if (this.props.onEmoticonPress)
             this.props.onEmoticonPress(val);
     }
 
     _onBackspacePress() {
-        if(this.props.onBackspacePress)
+        if (this.props.onBackspacePress)
             this.props.onBackspacePress();
     }
 
@@ -90,26 +114,29 @@ class Emoticons extends React.Component {
         const the = this;
         let group = emoji => {
             let groupView = [];
+            if (!emoji)
+                return groupView;
             const blocks = Math.ceil(emoji.length / blockIconNum);
             for (let i = 0; i < blocks; i++) {
                 let ge = _.slice(emoji, i * blockIconNum, (i + 1) * blockIconNum);
                 groupView.push(
-                    <View style={styles.groupView} key={emoji[0]['name']+'block'+i} tabLabel={emoji[0]['name']+'block'+i}>
+                    <View style={styles.groupView} key={emoji[0]['name']+'block'+i}
+                          tabLabel={emoji[0]['name']+'block'+i}>
                         {
                             ge.map((value, key) => {
                                     return (
-                                    <TouchableHighlight
-                                        underlayColor={'#f1f1f1'}
-                                        onPress={()=>this._onEmoticonPress(value)}
-                                        style={styles.emojiTouch}
-                                        key={value.name}
-                                        >
-                                        <Text
-                                            style={styles.emoji}
-                                             >
-                                            {value.code}
-                                        </Text>
-                                    </TouchableHighlight>
+                                        <TouchableHighlight
+                                            underlayColor={'#f1f1f1'}
+                                            onPress={()=>this._onEmoticonPress(value)}
+                                            style={styles.emojiTouch}
+                                            key={value.name}
+                                            >
+                                            <Text
+                                                style={styles.emoji}
+                                                >
+                                                {value.code}
+                                            </Text>
+                                        </TouchableHighlight>
 
                                     )
 
@@ -134,13 +161,13 @@ class Emoticons extends React.Component {
 
 
         let groupsView = [];
-        _.each(categories, (value, key)=> {
-            const groupView = group(the.state.data[value]);
+        if(this.props.concise) {
+            const groupView = group(the.state.data);
             groupsView.push(
                 <View
-                    tabLabel={the.state.data[value][0]['code']}
+                    tabLabel={the.state.data[0]['code']}
                     style={styles.cateView}
-                    key={value}
+                    key={the.state.data[0]['name']}
                     >
                     <ScrollableTabView
                         tabBarPosition='bottom'
@@ -157,7 +184,34 @@ class Emoticons extends React.Component {
 
                 </View>
             );
-        });
+        } else {
+            _.each(categories, (value, key)=> {
+                const groupView = group(the.state.data[value]);
+                if (groupView.length > 0)
+                    groupsView.push(
+                        <View
+                            tabLabel={the.state.data[value][0]['code']}
+                            style={styles.cateView}
+                            key={value}
+                            >
+                            <ScrollableTabView
+                                tabBarPosition='bottom'
+                                renderTabBar={() => <TabBarDot {...the.props} />}
+                                initialPage={0}
+                                tabBarActiveTextColor="#fc7d30"
+                                style={styles.scrollGroupTable}
+                                tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
+                                >
+                                {
+                                    groupView
+                                }
+                            </ScrollableTabView>
+
+                        </View>
+                    );
+            });
+        }
+
 
         return (
             <Animated.View style={[this.props.style,styles.container,{bottom: this.state.position}]}>
@@ -182,7 +236,8 @@ Emoticons.propTypes = {
     onEmoticonPress: PropTypes.func.isRequired,
     onBackspacePress: PropTypes.func,
     style: View.propTypes.style,
-    show: PropTypes.bool
+    show: PropTypes.bool,
+    concise: PropTypes.bool
 };
 
 export {
