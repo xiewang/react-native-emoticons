@@ -67,6 +67,17 @@ class TabBar extends React.Component {
                             </TouchableOpacity>;
                         }
 
+                        if(tab === 'history'){
+                            return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
+                                                     key={tab} onPress={() => this._onIconPress(i)}
+                                                     style={[styles.tab,{backgroundColor: (this.props.activeTab === i? '#f1f1f1': '#fff')}]}>
+                                <Image
+                                    resizeMode={'contain'}
+                                    style={styles.plusButton}
+                                    source={require('./history.png')}/>
+                            </TouchableOpacity>;
+                        }
+
                         return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
                                                  key={tab} onPress={() => this._onIconPress(i)}
                                                  style={[styles.tab,{backgroundColor: (this.props.activeTab === i? '#f1f1f1': '#fff')}]}>
