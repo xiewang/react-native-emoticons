@@ -101,6 +101,11 @@ const styles = StyleSheet.create({
         width:30,
         height:30,
         opacity: .5
+    },
+    plusButton: {
+        width: 20,
+        height: 20,
+        opacity: 0.8
     }
 });
 

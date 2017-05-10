@@ -6,7 +6,8 @@ import {
     Navigator,
     InteractionManager,
     Platform,
-    ScrollView
+    ScrollView,
+    Image
 } from 'react-native';
 import styles from './style';
 
@@ -40,6 +41,10 @@ class TabBar extends React.Component {
         this.props.goToPage(i);
     }
 
+    _getMore() {
+
+    }
+
     componentWillReceiveProps() {
     }
 
@@ -51,6 +56,17 @@ class TabBar extends React.Component {
                     showsHorizontalScrollIndicator={false}
                     >
                     {this.props.tabs.map((tab, i) => {
+                        if(tab === 'plus'){
+                            return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
+                                                     key={tab} onPress={() => this._getMore()}
+                                                     style={[styles.tab,{backgroundColor: (this.props.activeTab === i? '#f1f1f1': '#fff')}]}>
+                                <Image
+                                    resizeMode={'contain'}
+                                    style={styles.plusButton}
+                                    source={require('./plus.png')}/>
+                            </TouchableOpacity>;
+                        }
+
                         return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
                                                  key={tab} onPress={() => this._onIconPress(i)}
                                                  style={[styles.tab,{backgroundColor: (this.props.activeTab === i? '#f1f1f1': '#fff')}]}>

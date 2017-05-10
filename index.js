@@ -161,8 +161,16 @@ class Emoticons extends React.Component {
 
 
         let groupsView = [];
+        const plusButton =  <View
+            tabLabel={'plus'}
+            style={styles.cateView}
+            key={'0_plus'}
+            >
+        </View>;
+        groupsView.push(plusButton);
         if(this.props.concise) {
             const groupView = group(the.state.data);
+
             groupsView.push(
                 <View
                     tabLabel={the.state.data[0]['code']}
@@ -218,7 +226,7 @@ class Emoticons extends React.Component {
                 <ScrollableTabView
                     tabBarPosition='overlayBottom'
                     renderTabBar={() => <TabBar {...this.props}/>}
-                    initialPage={0}
+                    initialPage={1}
                     onChangeTab={this._onChangeTab.bind(this)}
                     tabBarActiveTextColor="#fc7d30"
                     style={styles.scrollTable}
