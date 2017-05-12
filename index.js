@@ -32,7 +32,7 @@ const choiceness = ['grinning', 'grin', 'joy', 'sweat_smile', 'laughing', 'wink'
     'ok_hank', 'muscle', 'pray', 'point_up', 'lips', 'womans_hat', 'purse', 'crown', 'dog', 'panda_face', 'pig',
     'earth_asia', 'cherry_blossom', 'sunny', 'thunder_cloud_and_rain', 'zap', 'snowflake', 'birthday', 'lollipop',
     'beers', 'popcorn', 'soccer', 'airplane', 'iphone', 'tada', 'heart', 'broken_heart', 'flag_us', 'flag_cn'];
-
+let emojiIndex = 0;
 class Emoticons extends React.Component {
     constructor(props) {
         super(props);
@@ -43,6 +43,12 @@ class Emoticons extends React.Component {
             position: new Animated.Value(this.props.show ? 0 : -300)
         }
     }
+    static defaultProps = {
+        show: false,
+        concise: true,
+        showHistoryBar: true,
+        showPlusBar: true
+    };
 
     componentDidMount() {
     }
@@ -173,8 +179,15 @@ class Emoticons extends React.Component {
             key={'0_history'}
             >
         </View>;
-        groupsView.push(plusButton);
-        groupsView.push(history);
+        if(this.props.showPlusBar){
+            emojiIndex++;
+            groupsView.push(plusButton);
+        }
+
+        if(this.props.showHistoryBar){
+            emojiIndex++;
+            groupsView.push(history);
+        }
 
         if(this.props.concise) {
             const groupView = group(the.state.data);
@@ -234,7 +247,7 @@ class Emoticons extends React.Component {
                 <ScrollableTabView
                     tabBarPosition='overlayBottom'
                     renderTabBar={() => <TabBar {...this.props}/>}
-                    initialPage={2}
+                    initialPage={emojiIndex}
                     onChangeTab={this._onChangeTab.bind(this)}
                     tabBarActiveTextColor="#fc7d30"
                     style={styles.scrollTable}
@@ -253,7 +266,9 @@ Emoticons.propTypes = {
     onBackspacePress: PropTypes.func,
     style: View.propTypes.style,
     show: PropTypes.bool,
-    concise: PropTypes.bool
+    concise: PropTypes.bool,
+    showHistoryBar: PropTypes.bool,
+    showPlusBar: PropTypes.bool
 };
 
 export {
