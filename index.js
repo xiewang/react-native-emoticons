@@ -19,6 +19,7 @@ import TabBar from './tab';
 import TabBarDot from './tabDot';
 import stringify from './stringify';
 import parse from './parse';
+import splitter from './grapheme-splitter';
 
 const {height, width} = Dimensions.get('window');
 require('string.fromcodepoint');
@@ -279,5 +280,6 @@ Emoticons.propTypes = {
 export {
     Emoticons as default,
     stringify as stringify,
-    parse as parse
+    parse as parse,
+    splitter as splitter
 }
