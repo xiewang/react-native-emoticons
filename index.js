@@ -32,7 +32,6 @@ const choiceness = ['grinning', 'grin', 'joy', 'sweat_smile', 'laughing', 'wink'
     'ok_hank', 'muscle', 'pray', 'point_up', 'lips', 'womans_hat', 'purse', 'crown', 'dog', 'panda_face', 'pig',
     'earth_asia', 'cherry_blossom', 'sunny', 'thunder_cloud_and_rain', 'zap', 'snowflake', 'birthday', 'lollipop',
     'beers', 'popcorn', 'soccer', 'airplane', 'iphone', 'tada', 'heart', 'broken_heart', 'flag_us', 'flag_cn'];
-let emojiIndex = 0;
 class Emoticons extends React.Component {
     constructor(props) {
         super(props);
@@ -40,6 +39,7 @@ class Emoticons extends React.Component {
         this._onEmoticonPress = this._onEmoticonPress.bind(this);
         this.state = {
             data: [],
+            groupIndex: 1,
             position: new Animated.Value(this.props.show ? 0 : -300)
         }
     }
@@ -54,6 +54,13 @@ class Emoticons extends React.Component {
     }
 
     componentWillMount() {
+        if(this.props.showPlusBar){
+            this.setState({groupIndex: this.state.groupIndex++});
+        }
+
+        if(this.props.showHistoryBar){
+            this.setState({groupIndex: this.state.groupIndex++});
+        }
         this._classify();
     }
 
@@ -180,12 +187,10 @@ class Emoticons extends React.Component {
             >
         </View>;
         if(this.props.showPlusBar){
-            emojiIndex++;
             groupsView.push(plusButton);
         }
 
         if(this.props.showHistoryBar){
-            emojiIndex++;
             groupsView.push(history);
         }
 
@@ -247,7 +252,7 @@ class Emoticons extends React.Component {
                 <ScrollableTabView
                     tabBarPosition='overlayBottom'
                     renderTabBar={() => <TabBar {...this.props}/>}
-                    initialPage={emojiIndex}
+                    initialPage={this.state.groupIndex}
                     onChangeTab={this._onChangeTab.bind(this)}
                     tabBarActiveTextColor="#fc7d30"
                     style={styles.scrollTable}
