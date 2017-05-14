@@ -30,12 +30,10 @@ npm install react-native-emoticons
 	
 	```js
 	<Emoticons
-        onEmoticonPress={this._onEmoticonPress.bind(this)}
-		 onBackspacePress={this._onBackspacePress.bind(this)}
-        show={this.state.showEmoticons}
-        concise={true}
-        showHistoryBar={true}
-        showPlusBar={true}
+		onEmoticonPress={this._onEmoticonPress.bind(this)}		onBackspacePress={this._onBackspacePress.bind(this)} 		show={this.state.showEmoticons}
+		concise={true}
+		showHistoryBar={true}
+		showPlusBar={true}
      />
 	```
 	> **Tip:**  The attribute `onEmoticonPress ` can get the emoticos results like `{code:'😁', name: 'GRIMACING FACE'}`. The attribute `show ` will control that if the component is visible.  The attribute `onBackspacePress ` will add a function for backspace button. 
