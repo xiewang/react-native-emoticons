@@ -33,6 +33,9 @@ npm install react-native-emoticons
         onEmoticonPress={this._onEmoticonPress.bind(this)}
 		 onBackspacePress={this._onBackspacePress.bind(this)}
         show={this.state.showEmoticons}
+        concise={true}
+        showHistoryBar={true}
+        showPlusBar={true}
      />
 	```
 	> **Tip:**  The attribute `onEmoticonPress ` can get the emoticos results like `{code:'😁', name: 'GRIMACING FACE'}`. The attribute `show ` will control that if the component is visible.  The attribute `onBackspacePress ` will add a function for backspace button. 
@@ -72,6 +75,19 @@ import * as emoticons from 'react-native-emoticons';
 	//output
 	'This is source emoji 😁'
 	```
+
+3. splitter
+
+	```js
+	//this api is for backspace function
+	const emoji = emoticons.splitter('emoji😁');
+	console.log(emoji);
+	```
+	```js
+	//output
+	['e','m','o','j','i','😁']
+	```
+
 
 ## Further
 	
