@@ -4,7 +4,7 @@ react native emoticons component, including emoji
 ![emoticons](docs/emoticons.gif)
 
 ### latest screenshot sample
-![emoticons](docs/sample.png )
+![emoticons](docs/sample2.png )
 
 <!--![Markdown](http://i2.muimg.com/1949/cda818de0596cd04.gif)-->
 ## Install
