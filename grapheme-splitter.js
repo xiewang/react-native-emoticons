@@ -112,7 +112,7 @@ function GraphemeSplitter(){
     }
 
     // Returns the next grapheme break in the string after the given index
-    this.nextBreak = function(string, index){
+    var nextBreak = function(string, index){
         if(index === undefined){
             index = 0;
         }
@@ -145,7 +145,7 @@ function GraphemeSplitter(){
         var res = [];
         var index = 0;
         var brk;
-        while((brk = this.nextBreak(str, index)) < str.length){
+        while((brk = nextBreak(str, index)) < str.length){
             res.push(str.slice(index, brk));
             index = brk;
         }
@@ -156,11 +156,11 @@ function GraphemeSplitter(){
     };
 
     // Returns the number of grapheme clusters there are in the given string
-    this.countGraphemes = function(str){
+    var countGraphemes = function(str){
         var count = 0;
         var index = 0;
         var brk;
-        while((brk = this.nextBreak(str, index)) < str.length){
+        while((brk = nextBreak(str, index)) < str.length){
             index = brk;
             count++;
         }
@@ -1507,5 +1507,5 @@ function GraphemeSplitter(){
     }
     return this;
 }
-
-module.exports = GraphemeSplitter
+var Splitter = new GraphemeSplitter();
+module.exports = Splitter.splitGraphemes;
