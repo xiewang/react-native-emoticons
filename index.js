@@ -20,6 +20,7 @@ import TabBarDot from './tabDot';
 import stringify from './stringify';
 import parse from './parse';
 import splitter from './grapheme-splitter';
+import WebViewPage from './webView';
 
 const {height, width} = Dimensions.get('window');
 require('string.fromcodepoint');
@@ -33,6 +34,7 @@ const choiceness = ['grinning', 'grin', 'joy', 'sweat_smile', 'laughing', 'wink'
     'ok_hank', 'muscle', 'pray', 'point_up', 'lips', 'womans_hat', 'purse', 'crown', 'dog', 'panda_face', 'pig',
     'earth_asia', 'cherry_blossom', 'sunny', 'thunder_cloud_and_rain', 'zap', 'snowflake', 'birthday', 'lollipop',
     'beers', 'popcorn', 'soccer', 'airplane', 'iphone', 'tada', 'heart', 'broken_heart', 'flag_us', 'flag_cn'];
+
 class Emoticons extends React.Component {
     constructor(props) {
         super(props);
@@ -41,9 +43,12 @@ class Emoticons extends React.Component {
         this.state = {
             data: [],
             groupIndex: 1,
-            position: new Animated.Value(this.props.show ? 0 : -300)
+            showWV: false,
+            position: new Animated.Value(this.props.show ? 0 : -300),
+            wvPosition: new Animated.Value(-height),
         }
     }
+
     static defaultProps = {
         show: false,
         concise: true,
@@ -55,11 +60,11 @@ class Emoticons extends React.Component {
     }
 
     componentWillMount() {
-        if(this.props.showPlusBar){
+        if (this.props.showPlusBar) {
             this.setState({groupIndex: this.state.groupIndex++});
         }
 
-        if(this.props.showHistoryBar){
+        if (this.props.showHistoryBar) {
             this.setState({groupIndex: this.state.groupIndex++});
         }
         this._classify();
@@ -71,6 +76,13 @@ class Emoticons extends React.Component {
             {
                 duration: 300,
                 toValue: this.props.show ? 0 : -300
+            }
+        ).start();
+        Animated.timing(
+            this.state.wvPosition,
+            {
+                duration: 300,
+                toValue: this.state.showWV ? 0 : -height
             }
         ).start();
     }
@@ -88,14 +100,14 @@ class Emoticons extends React.Component {
             filteredData = emojiData.filter(e=> _.includes(choiceness, e.short_name));
             const temp = [];
             _.mapKeys(filteredData, (value)=> {
-                temp.push( {
+                temp.push({
                     code: this._charFromCode(value.unified),
                     name: value.short_name
                 });
             });
-            _.each(choiceness,(value)=>{
+            _.each(choiceness, (value)=> {
                 const one = temp.filter(e=> _.includes([value], e.name));
-                if(one[0])
+                if (one[0])
                     this.state.data.push(one[0]);
             });
         } else {
@@ -109,8 +121,11 @@ class Emoticons extends React.Component {
 
     }
 
-    _onChangeTab() {
+    _onChangeTab(data) {
+    }
 
+    _onPlusPress() {
+        this.setState({showWV: true});
     }
 
     _onEmoticonPress(val) {
@@ -122,6 +137,11 @@ class Emoticons extends React.Component {
         if (this.props.onBackspacePress)
             this.props.onBackspacePress();
     }
+
+    _onCloseWV() {
+        this.setState({showWV: false});
+    }
+
 
     render() {
 
@@ -175,27 +195,26 @@ class Emoticons extends React.Component {
 
 
         let groupsView = [];
-        const plusButton =  <View
+        const plusButton = <View
             tabLabel={'plus'}
             style={styles.cateView}
             key={'0_plus'}
-            >
-        </View>;
-        const history =  <View
+            />;
+        const history = <View
             tabLabel={'history'}
             style={styles.cateView}
             key={'0_history'}
             >
         </View>;
-        if(this.props.showPlusBar){
+        if (this.props.showPlusBar) {
             groupsView.push(plusButton);
         }
 
-        if(this.props.showHistoryBar){
+        if (this.props.showHistoryBar) {
             groupsView.push(history);
         }
 
-        if(this.props.concise) {
+        if (this.props.concise) {
             const groupView = group(the.state.data);
 
             groupsView.push(
@@ -231,7 +250,7 @@ class Emoticons extends React.Component {
                             >
                             <ScrollableTabView
                                 tabBarPosition='bottom'
-                                renderTabBar={() => <TabBarDot {...the.props} />}
+                                renderTabBar={() => <TabBarDot {...the.props}/>}
                                 initialPage={0}
                                 tabBarActiveTextColor="#fc7d30"
                                 style={styles.scrollGroupTable}
@@ -249,21 +268,25 @@ class Emoticons extends React.Component {
 
 
         return (
-            <Animated.View style={[this.props.style,styles.container,{bottom: this.state.position}]}>
-                <ScrollableTabView
-                    tabBarPosition='overlayBottom'
-                    renderTabBar={() => <TabBar {...this.props}/>}
-                    initialPage={this.state.groupIndex}
-                    onChangeTab={this._onChangeTab.bind(this)}
-                    tabBarActiveTextColor="#fc7d30"
-                    style={styles.scrollTable}
-                    tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
-                    >
-                    {groupsView}
-                </ScrollableTabView>
+            (!this.state.showWV) ?
+                <Animated.View style={[this.props.style,styles.container,{bottom: this.state.position}]}>
+                    <ScrollableTabView
+                        tabBarPosition='overlayBottom'
+                        renderTabBar={() => <TabBar {...this.props} onPlusPress={this._onPlusPress.bind(this)}/>}
+                        initialPage={this.state.groupIndex}
+                        onChangeTab={this._onChangeTab.bind(this)}
+                        tabBarActiveTextColor="#fc7d30"
+                        style={styles.scrollTable}
+                        tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
+                        >
+                        {groupsView}
+                    </ScrollableTabView>
 
-            </Animated.View>
-        )
+                </Animated.View> :
+                <Animated.View style={[styles.wvContainer,{bottom: this.state.wvPosition}]}>
+                    <WebViewPage onBackPress={this._onCloseWV.bind(this)}/>
+                </Animated.View>
+        );
     }
 }
 
@@ -277,8 +300,9 @@ Emoticons.propTypes = {
     showPlusBar: PropTypes.bool
 };
 
+
+export default Emoticons;
 export {
-    Emoticons as default,
     stringify as stringify,
     parse as parse,
     splitter as splitter

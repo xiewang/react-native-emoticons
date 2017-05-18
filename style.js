@@ -16,13 +16,22 @@ const styles = StyleSheet.create({
     dimText: {
         color: '#9b9b9b',
     },
+    wvContainer:{
+        backgroundColor: '#fff',
+        height: height,
+        width: width,
+        position: 'absolute',
+        bottom: 0,
+        left:0,
+        zIndex:1000
+    },
     container: {
         backgroundColor: '#fff',
         height: 300,
         width: width,
         position: 'absolute',
         bottom: 0,
-        left:0
+        left:0,
     },
     emoji: {
         textAlign: 'center',

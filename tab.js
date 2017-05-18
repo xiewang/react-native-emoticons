@@ -42,7 +42,7 @@ class TabBar extends React.Component {
     }
 
     _getMore() {
-
+        this.props.onPlusPress();
     }
 
     componentWillReceiveProps() {
