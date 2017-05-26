@@ -9,7 +9,8 @@ import {
     TouchableWithoutFeedback,
     Image,
     ScrollView,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from 'react-native';
 import styles from './style';
 import emojiData from 'emoji-datasource';
@@ -35,6 +36,7 @@ const choiceness = ['grinning', 'grin', 'joy', 'sweat_smile', 'laughing', 'wink'
     'earth_asia', 'cherry_blossom', 'sunny', 'thunder_cloud_and_rain', 'zap', 'snowflake', 'birthday', 'lollipop',
     'beers', 'popcorn', 'soccer', 'airplane', 'iphone', 'tada', 'heart', 'broken_heart', 'flag_us', 'flag_cn'];
 
+const HISTORY_STORAGE = 'history_storage';
 class Emoticons extends React.Component {
     constructor(props) {
         super(props);
@@ -46,6 +48,7 @@ class Emoticons extends React.Component {
             showWV: false,
             position: new Animated.Value(this.props.show ? 0 : -300),
             wvPosition: new Animated.Value(-height),
+            history: []
         }
     }
 
@@ -57,6 +60,11 @@ class Emoticons extends React.Component {
     };
 
     componentDidMount() {
+        AsyncStorage.getItem(HISTORY_STORAGE,(err,result)=>{
+            if(result){
+                this.setState({history: JSON.parse(result)});
+            }
+        });
     }
 
     componentWillMount() {
@@ -129,8 +137,11 @@ class Emoticons extends React.Component {
     }
 
     _onEmoticonPress(val) {
-        if (this.props.onEmoticonPress)
+        if (this.props.onEmoticonPress) {
             this.props.onEmoticonPress(val);
+            this._history(val);
+        }
+
     }
 
     _onBackspacePress() {
@@ -142,6 +153,27 @@ class Emoticons extends React.Component {
         this.setState({showWV: false});
     }
 
+    _history(val) {
+        //AsyncStorage.removeItem(HISTORY_STORAGE);
+        AsyncStorage.getItem(HISTORY_STORAGE,(err,result)=>{
+            let value = _.clone(val);
+            if(result){
+                result = JSON.parse(result);
+                valIndex = _.find(result,value);
+                if(valIndex){
+                    valIndex.freq ++;
+                    _.remove(result, {name: valIndex.name});
+                    result.push(valIndex);
+                } else {
+                    value.freq = 1;
+                    result.push(value);
+                }
+            }
+            result = _.reverse(_.sortBy(result, [function(o) { return o.freq; }]));
+            AsyncStorage.setItem(HISTORY_STORAGE, JSON.stringify(result));
+            this.setState({history: result});
+        });
+    }
 
     render() {
 
@@ -200,11 +232,24 @@ class Emoticons extends React.Component {
             style={styles.cateView}
             key={'0_plus'}
             />;
+        const histroyView = group(the.state.history);
         const history = <View
             tabLabel={'history'}
             style={styles.cateView}
             key={'0_history'}
             >
+            <ScrollableTabView
+                tabBarPosition='bottom'
+                renderTabBar={() => <TabBarDot {...the.props} />}
+                initialPage={0}
+                tabBarActiveTextColor="#fc7d30"
+                style={styles.scrollGroupTable}
+                tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
+                >
+                {
+                    histroyView
+                }
+            </ScrollableTabView>
         </View>;
         if (this.props.showPlusBar) {
             groupsView.push(plusButton);
