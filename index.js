@@ -211,7 +211,7 @@ class Emoticons extends React.Component {
                         }
                         <TouchableOpacity
                             onPress={()=>this._onBackspacePress()}
-                            style={styles.emojiTouch}
+                            style={[styles.emojiTouch,styles.delete]}
                             >
                             <Image
                                 resizeMode={'contain'}

@@ -40,10 +40,13 @@ const styles = StyleSheet.create({
 
     },
     emojiTouch:{
-        width: 50,
+        width: (width-30)/6,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    delete:{
+        right:0
     },
     scrollTable: {
         width: width
