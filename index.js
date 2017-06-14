@@ -52,7 +52,7 @@ class Emoticons extends React.Component {
         this._onEmoticonPress = this._onEmoticonPress.bind(this);
         this.state = {
             data: [],
-            groupIndex: 1,
+            groupIndex: Platform.OS === 'android' ? 0 : 1,
             showWV: false,
             position: new Animated.Value(this.props.show ? 0 : -300),
             wvPosition: new Animated.Value(-height),

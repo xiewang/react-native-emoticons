@@ -31,9 +31,10 @@ class TabBar extends React.Component {
 
     componentDidMount() {
         this._listener = this.props.scrollValue.addListener(this._setAnimationValue);
-        setTimeout(()=>{
-            this.props.goToPage(this.props.activeTab);
-        },100)
+        if (Platform.OS === 'android')
+            setTimeout(()=>{
+                this.props.goToPage(this.props.activeTab+1);
+            },100)
     }
 
     _setAnimationValue({ value, }) {
