@@ -36,7 +36,7 @@ class Webview extends React.Component {
 
     render() {
         return (
-            <View style={[styles.container, Platform.OS === 'android' ? null : {marginTop: 21}]} visible='hidden'>
+            <View style={[styles.container, Platform.OS === 'android' ? {marginTop: 21} : {marginTop: 21}]} visible='hidden'>
                 <View style={styles.toolbar}>
                     <TouchableOpacity
                         style={styles.leftIOSContainer}
@@ -53,7 +53,7 @@ class Webview extends React.Component {
                             <Text
                                 style={styles.titleIOS}
                                 >
-                                表情
+                                表情商城
                             </Text>
                         </TouchableOpacity>
 
