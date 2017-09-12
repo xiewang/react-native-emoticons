@@ -56,7 +56,9 @@ class Emoticons extends React.Component {
             showWV: false,
             position: new Animated.Value(this.props.show ? 0 : -300),
             wvPosition: new Animated.Value(-height),
-            history: []
+            history: [],
+            currentMainTab: 1,
+            currentDotTab: [0,0,0,0,0,0,0,0,0,0]
         }
         Platform.OS === 'android' ? choiceness = choicenessAndroid : '';
     }
@@ -65,7 +67,8 @@ class Emoticons extends React.Component {
         show: false,
         concise: true,
         showHistoryBar: true,
-        showPlusBar: true
+        showPlusBar: true,
+        asyncRender: false
     };
 
     componentDidMount() {
@@ -138,7 +141,14 @@ class Emoticons extends React.Component {
 
     }
 
-    _onChangeTab(data) {
+    _onChangeTabMain(data) {
+        this.setState({currentMainTab: data.i});
+        //this.setState({currentDotTab: 0});
+    }
+
+    _onChangeTabDot(data) {
+        this.state.currentDotTab[this.state.currentMainTab]=data.i;
+        this.setState({currentDotTab: this.state.currentDotTab});
     }
 
     _onPlusPress() {
@@ -187,7 +197,14 @@ class Emoticons extends React.Component {
     render() {
 
         const the = this;
+        let groupIndex = 0;
         let group = emoji => {
+            if(this.state.currentMainTab!==groupIndex){
+                groupIndex ++;
+                return [];
+            }
+            groupIndex ++;
+
             let groupView = [];
             if (!emoji)
                 return groupView;
@@ -199,12 +216,13 @@ class Emoticons extends React.Component {
                           tabLabel={emoji[0]['name']+'block'+i}>
                         {
                             ge.map((value, key) => {
+                                    if(this.state.currentDotTab[this.state.currentMainTab] == i)
                                     return (
                                         <TouchableHighlight
                                             underlayColor={'#f1f1f1'}
                                             onPress={()=>this._onEmoticonPress(value)}
                                             style={styles.emojiTouch}
-                                            key={value.name}
+                                            key={Math.random()+value.name}
                                             >
                                             <Text
                                                 style={styles.emoji}
@@ -219,15 +237,14 @@ class Emoticons extends React.Component {
                             )
                         }
                         <TouchableOpacity
-                            onPress={()=>this._onBackspacePress()}
-                            style={[styles.emojiTouch,styles.delete]}
-                            >
-                            <Image
+                                onPress={()=>this._onBackspacePress()}
+                                style={[styles.emojiTouch, styles.delete]}
+                                >
+                                <Image
                                 resizeMode={'contain'}
                                 style={styles.backspace}
                                 source={require('./backspace.png')}/>
-                        </TouchableOpacity>
-
+                                </TouchableOpacity>
                     </View>
                 );
             }
@@ -250,6 +267,7 @@ class Emoticons extends React.Component {
             <ScrollableTabView
                 tabBarPosition='bottom'
                 renderTabBar={() => <TabBarDot {...the.props} />}
+                onChangeTab={this._onChangeTabDot.bind(this)}
                 initialPage={0}
                 tabBarActiveTextColor="#fc7d30"
                 style={styles.scrollGroupTable}
@@ -280,6 +298,7 @@ class Emoticons extends React.Component {
                     <ScrollableTabView
                         tabBarPosition='bottom'
                         renderTabBar={() => <TabBarDot {...the.props} />}
+                        onChangeTab={this._onChangeTabDot.bind(this)}
                         initialPage={0}
                         tabBarActiveTextColor="#fc7d30"
                         style={styles.scrollGroupTable}
@@ -295,7 +314,7 @@ class Emoticons extends React.Component {
         } else {
             _.each(categories, (value, key)=> {
                 const groupView = group(the.state.data[value]);
-                if (groupView.length > 0)
+                if (groupView.length >= 0) {
                     groupsView.push(
                         <View
                             tabLabel={the.state.data[value][0]['code']}
@@ -305,18 +324,21 @@ class Emoticons extends React.Component {
                             <ScrollableTabView
                                 tabBarPosition='bottom'
                                 renderTabBar={() => <TabBarDot {...the.props}/>}
+                                onChangeTab={this._onChangeTabDot.bind(this)}
                                 initialPage={0}
                                 tabBarActiveTextColor="#fc7d30"
                                 style={styles.scrollGroupTable}
                                 tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
                                 >
                                 {
-                                    groupView
+                                    this.state.currentMainTab==key+1?
+                                        groupView:[]
                                 }
                             </ScrollableTabView>
 
                         </View>
                     );
+                }
             });
         }
 
@@ -328,7 +350,7 @@ class Emoticons extends React.Component {
                         tabBarPosition='overlayBottom'
                         renderTabBar={() => <TabBar {...this.props} onPlusPress={this._onPlusPress.bind(this)}/>}
                         initialPage={this.state.groupIndex}
-                        onChangeTab={this._onChangeTab.bind(this)}
+                        onChangeTab={this._onChangeTabMain.bind(this)}
                         tabBarActiveTextColor="#fc7d30"
                         style={styles.scrollTable}
                         tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
@@ -351,7 +373,8 @@ Emoticons.propTypes = {
     show: PropTypes.bool,
     concise: PropTypes.bool,
     showHistoryBar: PropTypes.bool,
-    showPlusBar: PropTypes.bool
+    showPlusBar: PropTypes.bool,
+    asyncRender: PropTypes.bool
 };
 
 
