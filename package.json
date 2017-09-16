@@ -24,7 +24,7 @@
   "dependencies": {
     "emoji-datasource": "^2.4.4",
     "lodash": "^4.17.4",
-    "react-native-scrollable-tab-view": "^0.6.5",
+    "react-native-scrollable-tab-view": "^0.6.7",
     "string.fromcodepoint": "^0.2.1",
     "react-native-fetch-blob": "^0.10.5"
   }
