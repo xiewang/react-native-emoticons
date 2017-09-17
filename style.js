@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 25,
         lineHeight: 30,
-
+        color: '#rgba(0,0,0,1)'
     },
     emojiTouch:{
         width: (width-30)/6,

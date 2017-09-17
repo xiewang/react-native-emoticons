@@ -92,7 +92,7 @@ class TabBar extends React.Component {
                         return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
                                                  key={tab} onPress={() => this._onIconPress(i)}
                                                  style={[styles.tab,{backgroundColor: (this.props.activeTab === i? '#f1f1f1': '#fff')}]}>
-                            <Text style={{fontSize: 25}}>{this.props.tabs[i]}</Text>
+                            <Text style={styles.emoji }>{this.props.tabs[i]}</Text>
                         </TouchableOpacity>;
                     })}
                 </ScrollView>
