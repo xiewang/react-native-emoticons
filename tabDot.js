@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     Navigator,
     InteractionManager,
-    Platform
+    Platform,
+    DeviceEventEmitter
 } from 'react-native';
 import styles from './style';
 
@@ -28,7 +29,13 @@ class TabBarDot extends React.Component {
     };
 
     componentDidMount() {
+        const the = this;
         this._listener = this.props.scrollValue.addListener(this._setAnimationValue);
+
+        DeviceEventEmitter.addListener('tabChanged',(tab)=>{
+            the.props.goToPage(0);
+
+        });
     }
 
     _setAnimationValue({ value, }) {
@@ -40,6 +47,10 @@ class TabBarDot extends React.Component {
     }
 
     componentWillReceiveProps(){
+    }
+
+    componentDidUpdate(){
+        //this.props.goToPage(this.props.activeTab);
     }
 
     render() {

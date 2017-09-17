@@ -7,7 +7,8 @@ import {
     InteractionManager,
     Platform,
     ScrollView,
-    Image
+    Image,
+    DeviceEventEmitter
 } from 'react-native';
 import styles from './style';
 
@@ -37,12 +38,18 @@ class TabBar extends React.Component {
             },100)
     }
 
+    componentWillUpdate(){
+
+    }
+
     _setAnimationValue({ value, }) {
     }
 
 
     _onIconPress(i) {
         this.props.goToPage(i);
+        if (Platform.OS === 'android')
+            DeviceEventEmitter.emit('tabChanged', i);
     }
 
     _getMore() {

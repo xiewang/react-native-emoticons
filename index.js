@@ -57,9 +57,9 @@ class Emoticons extends React.Component {
             position: new Animated.Value(this.props.show ? 0 : -300),
             wvPosition: new Animated.Value(-height),
             history: [],
-            currentMainTab: 1,
-            currentDotTab: [0,0,0,0,0,0,0,0,0,0]
-        }
+            currentMainTab: 0,
+            currentDotTab: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]
+        };
         Platform.OS === 'android' ? choiceness = choicenessAndroid : '';
     }
 
@@ -72,8 +72,8 @@ class Emoticons extends React.Component {
     };
 
     componentDidMount() {
-        AsyncStorage.getItem(HISTORY_STORAGE,(err,result)=>{
-            if(result){
+        AsyncStorage.getItem(HISTORY_STORAGE, (err, result)=> {
+            if (result) {
                 this.setState({history: JSON.parse(result)});
             }
         });
@@ -82,10 +82,12 @@ class Emoticons extends React.Component {
     componentWillMount() {
         if (this.props.showPlusBar) {
             this.setState({groupIndex: this.state.groupIndex++});
+            this.setState({currentMainTab: ++this.state.currentMainTab});
         }
 
         if (this.props.showHistoryBar) {
             this.setState({groupIndex: this.state.groupIndex++});
+            this.setState({currentMainTab: ++this.state.currentMainTab});
         }
         this._classify();
     }
@@ -143,11 +145,10 @@ class Emoticons extends React.Component {
 
     _onChangeTabMain(data) {
         this.setState({currentMainTab: data.i});
-        //this.setState({currentDotTab: 0});
     }
 
     _onChangeTabDot(data) {
-        this.state.currentDotTab[this.state.currentMainTab]=data.i;
+        this.state.currentDotTab[this.state.currentMainTab] = data.i;
         this.setState({currentDotTab: this.state.currentDotTab});
     }
 
@@ -160,7 +161,6 @@ class Emoticons extends React.Component {
             this.props.onEmoticonPress(val);
             this._history(val);
         }
-
     }
 
     _onBackspacePress() {
@@ -174,13 +174,13 @@ class Emoticons extends React.Component {
 
     _history(val) {
         //AsyncStorage.removeItem(HISTORY_STORAGE);
-        AsyncStorage.getItem(HISTORY_STORAGE,(err,result)=>{
+        AsyncStorage.getItem(HISTORY_STORAGE, (err, result)=> {
             let value = _.clone(val);
-            if(result){
+            if (result) {
                 result = JSON.parse(result);
-                valIndex = _.find(result,value);
-                if(valIndex){
-                    valIndex.freq ++;
+                valIndex = _.find(result, value);
+                if (valIndex) {
+                    valIndex.freq++;
                     _.remove(result, {name: valIndex.name});
                     result.push(valIndex);
                 } else {
@@ -188,7 +188,9 @@ class Emoticons extends React.Component {
                     result.push(value);
                 }
             }
-            result = _.reverse(_.sortBy(result, [function(o) { return o.freq; }]));
+            result = _.reverse(_.sortBy(result, [function (o) {
+                return o.freq;
+            }]));
             AsyncStorage.setItem(HISTORY_STORAGE, JSON.stringify(result));
             this.setState({history: result});
         });
@@ -199,11 +201,11 @@ class Emoticons extends React.Component {
         const the = this;
         let groupIndex = 0;
         let group = emoji => {
-            if(this.state.currentMainTab!==groupIndex){
-                groupIndex ++;
+            if (this.props.asyncRender && this.state.currentMainTab !== groupIndex) {
+                groupIndex++;
                 return [];
             }
-            groupIndex ++;
+            groupIndex++;
 
             let groupView = [];
             if (!emoji)
@@ -216,7 +218,8 @@ class Emoticons extends React.Component {
                           tabLabel={emoji[0]['name']+'block'+i}>
                         {
                             ge.map((value, key) => {
-                                    if(this.state.currentDotTab[this.state.currentMainTab] == i)
+                                if ((this.props.asyncRender && this.state.currentDotTab[this.state.currentMainTab] == i)
+                                    || !this.props.asyncRender)
                                     return (
                                         <TouchableHighlight
                                             underlayColor={'#f1f1f1'}
@@ -231,20 +234,24 @@ class Emoticons extends React.Component {
                                             </Text>
                                         </TouchableHighlight>
 
-                                    )
+                                    );
 
-                                }
-                            )
+                            })
                         }
-                        <TouchableOpacity
+                        {
+                            (this.props.asyncRender && this.state.currentDotTab[this.state.currentMainTab] == i)
+                            || !this.props.asyncRender ? (<TouchableOpacity
                                 onPress={()=>this._onBackspacePress()}
                                 style={[styles.emojiTouch, styles.delete]}
                                 >
                                 <Image
-                                resizeMode={'contain'}
-                                style={styles.backspace}
-                                source={require('./backspace.png')}/>
-                                </TouchableOpacity>
+                                    resizeMode={'contain'}
+                                    style={styles.backspace}
+                                    source={require('./backspace.png')}/>
+                            </TouchableOpacity>) : null
+                        }
+
+
                     </View>
                 );
             }
@@ -331,8 +338,7 @@ class Emoticons extends React.Component {
                                 tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
                                 >
                                 {
-                                    this.state.currentMainTab==key+1?
-                                        groupView:[]
+                                    groupView
                                 }
                             </ScrollableTabView>
 
