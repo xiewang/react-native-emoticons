@@ -39,7 +39,19 @@ npm install react-native-emoticons
      />
 	```
 	> **Tip:**  The attribute `onEmoticonPress ` can get the emoticos results like `{code:'😁', name: 'GRIMACING FACE'}`. The attribute `show ` will control that if the component is visible.  The attribute `onBackspacePress ` will add a function for backspace button. 
-	
+
+### props
+
+| Prop | Type | Description | Required | Default |
+|---|---|---|---|---|
+|**`onEmoticonPress `**|`Function `| callback function when the emoticons is pressed |`Yes`|None|
+|**`onBackspacePress `**|`Function `| callback function when the backspace button is pressed |`YES`|None|
+|**`show `**|`Bool `| show the component |`YES`| false |
+|**`concise `**|`Bool `| concise mod with less emoji |`No`| true |
+|**`showHistoryBar `**|`Bool `| enable history function |`No`| true |
+|**`showPlusBar `**|`Bool `| enable more emoticons function(is on developing, if you have interesting on this, welcome pull request.)|`No`| true |
+|**`asyncRender `**|`Bool `| async render |`No`| false |
+
 ### API
 
 Import
