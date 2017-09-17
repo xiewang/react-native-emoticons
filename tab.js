@@ -48,7 +48,7 @@ class TabBar extends React.Component {
 
     _onIconPress(i) {
         this.props.goToPage(i);
-        if (Platform.OS === 'android')
+        if (Platform.OS === 'android' && this.props.asyncRender)
             DeviceEventEmitter.emit('tabChanged', i);
     }
 

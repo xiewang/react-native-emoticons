@@ -58,7 +58,7 @@ class Emoticons extends React.Component {
             wvPosition: new Animated.Value(-height),
             history: [],
             currentMainTab: 0,
-            currentDotTab: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]
+            currentDotTab: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         };
         Platform.OS === 'android' ? choiceness = choicenessAndroid : '';
     }
@@ -199,7 +199,7 @@ class Emoticons extends React.Component {
     render() {
 
         const the = this;
-        let groupIndex = 0;
+        let groupIndex = this.props.showPlusBar ? 1 : 0;
         let group = emoji => {
             if (this.props.asyncRender && this.state.currentMainTab !== groupIndex) {
                 groupIndex++;
@@ -265,6 +265,7 @@ class Emoticons extends React.Component {
             style={styles.cateView}
             key={'0_plus'}
             />;
+
         const histroyView = group(the.state.history);
         const history = <View
             tabLabel={'history'}
