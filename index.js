@@ -1,4 +1,4 @@
-import React,{PropTypes} from 'react';
+import React from 'react';
 import {
     Text,
     View,
@@ -11,7 +11,8 @@ import {
     ScrollView,
     TouchableHighlight,
     AsyncStorage,
-    Platform
+    Platform,
+    ViewPropTypes
 } from 'react-native';
 import styles from './style';
 import emojiData from 'emoji-datasource';
@@ -23,6 +24,7 @@ import stringify from './stringify';
 import parse from './parse';
 import splitter from './grapheme-splitter';
 import WebViewPage from './webView';
+import PropTypes from 'prop-types';
 
 const {height, width} = Dimensions.get('window');
 require('string.fromcodepoint');
@@ -376,7 +378,7 @@ class Emoticons extends React.Component {
 Emoticons.propTypes = {
     onEmoticonPress: PropTypes.func.isRequired,
     onBackspacePress: PropTypes.func,
-    style: View.propTypes.style,
+    style: ViewPropTypes.style,
     show: PropTypes.bool,
     concise: PropTypes.bool,
     showHistoryBar: PropTypes.bool,
