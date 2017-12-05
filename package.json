@@ -1,6 +1,6 @@
 {
   "name": "react-native-emoticons",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "react native emoticons component",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,6 @@
     "react-native-scrollable-tab-view": "^0.6.7",
     "string.fromcodepoint": "^0.2.1",
     "react-native-fetch-blob": "^0.10.5",
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.5.10"
   }
 }
