@@ -11,8 +11,7 @@ import {
     ScrollView,
     TouchableHighlight,
     AsyncStorage,
-    Platform,
-    ViewPropTypes
+    Platform
 } from 'react-native';
 import styles from './style';
 import emojiData from 'emoji-datasource';
@@ -25,6 +24,7 @@ import parse from './parse';
 import splitter from './grapheme-splitter';
 import WebViewPage from './webView';
 import PropTypes from 'prop-types';
+import ViewPropTypes from './viewproptypes';
 
 const {height, width} = Dimensions.get('window');
 require('string.fromcodepoint');
