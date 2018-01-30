@@ -18,7 +18,7 @@ const stringify = (text) => {
             return o.pointAt == value.codePointAt();
         });
         if (index > -1) {
-            result += '[' + emojiData[index]['name'] + ']';
+            result += '[' + emojiData[index]['unified'] + ']';
         } else {
             result += value;
         }
