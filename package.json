@@ -1,5 +1,5 @@
 {
-  "name": "react-native-emoticons",
+  "name": "react-native-a2s-emoticons",
   "version": "1.1.0",
   "description": "react native emoticons component",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xiewang/react-native-emoticons.git"
+    "url": "https://github.com/App2Sales/react-native-emoticons"
   },
   "keywords": [
     "react-native",
@@ -18,9 +18,9 @@
   "author": "xiewang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xiewang/react-native-emoticons/issues"
+    "url": "https://github.com/App2Sales/react-native-emoticons/issues"
   },
-  "homepage": "https://github.com/xiewang/react-native-emoticons",
+  "homepage": "https://github.com/App2Sales/react-native-emoticons",
   "dependencies": {
     "emoji-datasource": "^2.4.4",
     "lodash": "^4.17.4",

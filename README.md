@@ -1,4 +1,4 @@
-# React Native Emoticons
+# React Native a2s Emoticons
 react native emoticons component, including emoji
 
 ![emoticons](docs/emoticons.gif)
@@ -10,7 +10,7 @@ react native emoticons component, including emoji
 ## Install
 
 ```js
-npm install react-native-emoticons
+npm install react-native-a2s-emoticons
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ npm install react-native-emoticons
 	Import the component package.
 	
 	```js
-	import Emoticons from 'react-native-emoticons';
+	import Emoticons from 'react-native-a2s-emoticons';
 	```
 - step 2
 
@@ -57,7 +57,7 @@ npm install react-native-emoticons
 Import
 
 ```js
-import * as emoticons from 'react-native-emoticons';
+import * as emoticons from 'react-native-a2s-emoticons';
 ```
 
 1. stringify
@@ -104,3 +104,5 @@ import * as emoticons from 'react-native-emoticons';
 ## Further
 	
 ###	Support custom emoticons like `weixin`
+
+### Forked from [react-native-emoticons](https://github.com/xiewang/react-native-emoticons)
