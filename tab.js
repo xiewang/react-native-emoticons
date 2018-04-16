@@ -11,6 +11,7 @@ import {
     DeviceEventEmitter
 } from 'react-native';
 import styles from './style';
+import PropTypes from 'prop-types';
 
 class TabBar extends React.Component {
     constructor(props) {
@@ -25,9 +26,9 @@ class TabBar extends React.Component {
 
 
     static propTypes = {
-        goToPage: React.PropTypes.func,
-        activeTab: React.PropTypes.number,
-        tabs: React.PropTypes.array,
+        goToPage: PropTypes.func,
+        activeTab: PropTypes.number,
+        tabs: PropTypes.array,
     };
 
     componentDidMount() {
