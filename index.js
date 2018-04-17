@@ -31,7 +31,7 @@ require('string.fromcodepoint');
 
 const categories = ['People', 'Nature', 'Foods', 'Activity', 'Places', 'Objects', 'Symbols', 'Flags'];
 const filters = ['white_frowning_face'];
-const blockIconNum = 23;
+const blockIconNum = 24;
 let choiceness = ['grinning', 'grin', 'joy', 'sweat_smile', 'laughing', 'wink', 'blush', 'yum', 'heart_eyes', 'kissing_heart',
     'kissing_smiling_eyes', 'stuck_out_tongue_winking_eye', 'sunglasses', 'smirk', 'unamused', 'thinking_face',
     'flushed', 'rage', 'triumph', 'sob', 'mask', 'sleeping', 'zzz', 'hankey', 'ghost', '+1', '-1', 'facepunch', 'v',
@@ -239,18 +239,6 @@ class Emoticons extends React.Component {
                                     );
 
                             })
-                        }
-                        {
-                            (this.props.asyncRender && this.state.currentDotTab[this.state.currentMainTab] == i)
-                            || !this.props.asyncRender ? (<TouchableOpacity
-                                onPress={()=>this._onBackspacePress()}
-                                style={[styles.emojiTouch, styles.delete]}
-                                >
-                                <Image
-                                    resizeMode={'contain'}
-                                    style={styles.backspace}
-                                    source={require('./backspace.png')}/>
-                            </TouchableOpacity>) : null
                         }
 
 
