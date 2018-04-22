@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Text,
     View,
@@ -25,9 +26,9 @@ class TabBar extends React.Component {
 
 
     static propTypes = {
-        goToPage: React.PropTypes.func,
-        activeTab: React.PropTypes.number,
-        tabs: React.PropTypes.array,
+        goToPage: PropTypes.func,
+        activeTab: PropTypes.number,
+        tabs: PropTypes.array,
     };
 
     componentDidMount() {
@@ -65,7 +66,7 @@ class TabBar extends React.Component {
                 <ScrollView
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
-                    >
+                >
                     {this.props.tabs.map((tab, i) => {
                         if(tab === 'plus'){
                             return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
