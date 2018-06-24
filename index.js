@@ -16,7 +16,7 @@ import {
 import styles from './style';
 import emojiData from 'emoji-datasource';
 import _ from 'lodash';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import TabBar from './tab';
 import TabBarDot from './tabDot';
 import stringify from './stringify';
