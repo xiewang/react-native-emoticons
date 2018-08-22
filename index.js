@@ -354,7 +354,7 @@ class Emoticons extends React.Component {
 
         return (
             (!this.state.showWV) ?
-                <Animated.View style={[this.props.style,styles.container,{bottom: this.state.position}]}>
+                <Animated.View style={[styles.container, {bottom: this.state.position}, this.props.style]}>
                     <ScrollableTabView
                         tabBarPosition='overlayBottom'
                         renderTabBar={() => <TabBar {...this.props} onPlusPress={this._onPlusPress.bind(this)}/>}
