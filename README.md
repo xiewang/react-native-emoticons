@@ -1,4 +1,4 @@
-# React Native Emoticons
+# React Native a2s Emoticons
 react native emoticons component, including emoji
 
 ![emoticons](docs/emoticons.gif)
@@ -10,7 +10,7 @@ react native emoticons component, including emoji
 ## Install
 
 ```js
-npm install react-native-emoticons
+npm install react-native-a2s-emoticons
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ npm install react-native-emoticons
 	Import the component package.
 	
 	```js
-	import Emoticons from 'react-native-emoticons';
+	import Emoticons from 'react-native-a2s-emoticons';
 	```
 - step 2
 
@@ -39,13 +39,25 @@ npm install react-native-emoticons
      />
 	```
 	> **Tip:**  The attribute `onEmoticonPress ` can get the emoticos results like `{code:'😁', name: 'GRIMACING FACE'}`. The attribute `show ` will control that if the component is visible.  The attribute `onBackspacePress ` will add a function for backspace button. 
-	
+
+### props
+
+| Prop | Type | Description | Required | Default |
+|---|---|---|---|---|
+|**`onEmoticonPress `**|`Function `| callback function when the emoticons is pressed |`Yes`|None|
+|**`onBackspacePress `**|`Function `| callback function when the backspace button is pressed |`YES`|None|
+|**`show `**|`Bool `| show the component |`YES`| false |
+|**`concise `**|`Bool `| concise mod with less emoji |`No`| true |
+|**`showHistoryBar `**|`Bool `| enable history function |`No`| true |
+|**`showPlusBar `**|`Bool `| enable more emoticons function(is on developing, if you have interesting on this, welcome pull request.)|`No`| true |
+|**`asyncRender `**|`Bool `| async render |`No`| false |
+
 ### API
 
 Import
 
 ```js
-import * as emoticons from 'react-native-emoticons';
+import * as emoticons from 'react-native-a2s-emoticons';
 ```
 
 1. stringify
@@ -92,3 +104,5 @@ import * as emoticons from 'react-native-emoticons';
 ## Further
 	
 ###	Support custom emoticons like `weixin`
+
+### Forked from [react-native-emoticons](https://github.com/xiewang/react-native-emoticons)

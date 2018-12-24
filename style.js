@@ -20,28 +20,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         height: height,
         width: width,
-        position: 'absolute',
         bottom: 0,
         left:0,
         zIndex:1000
     },
     container: {
         backgroundColor: '#fff',
-        height: 300,
+        height: 200,
         width: width,
-        position: 'absolute',
         bottom: 0,
         left:0,
+        borderTopColor: '#9b9b9b',
+        borderTopWidth: 1
     },
     emoji: {
         textAlign: 'center',
         fontSize: 25,
         lineHeight: 30,
-
+        color: '#rgba(0,0,0,1)'
     },
     emojiTouch:{
-        width: (width-30)/6,
-        height: 50,
+        width: (width-30)/8,
+        height: 44,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         width: width
     },
     scrollGroupTable: {
-        paddingBottom: 50
+        paddingBottom: 40
     },
     cateView: {
         flex: 1,
@@ -62,21 +62,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingTop: 15
+        paddingLeft: 8,
+        paddingRight: 8,
+        paddingTop: 8
     },
     tab: {
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 0,
-        width: 60,
+        width: 42,
         borderRightWidth: 1,
         borderColor: 'rgba(178,178,178,.3)',
         backgroundColor: '#fff'
     },
     tabs: {
-        height: 40,
+        height: 35,
         width: width,
         flexDirection: 'row',
         borderWidth: 1,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,1)',
     },
     tabsDot: {
-        height: 40,
+        height: 8,
         width: width,
         flexDirection: 'row',
         borderWidth: 0,
@@ -95,19 +95,19 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     tabDot: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: 5,
-        marginRight: 5
-    },
-    dot: {
-        backgroundColor: '#f1f1f1',
         width: 6,
         height: 6,
         borderRadius: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 3,
+        marginRight: 3
+    },
+    dot: {
+        backgroundColor: '#f1f1f1',
+        width: 4,
+        height: 4,
+        borderRadius: 2,
     },
     backspace:{
         width:30,

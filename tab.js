@@ -7,9 +7,11 @@ import {
     InteractionManager,
     Platform,
     ScrollView,
-    Image
+    Image,
+    DeviceEventEmitter
 } from 'react-native';
 import styles from './style';
+import PropTypes from 'prop-types';
 
 class TabBar extends React.Component {
     constructor(props) {
@@ -24,9 +26,9 @@ class TabBar extends React.Component {
 
 
     static propTypes = {
-        goToPage: React.PropTypes.func,
-        activeTab: React.PropTypes.number,
-        tabs: React.PropTypes.array,
+        goToPage: PropTypes.func,
+        activeTab: PropTypes.number,
+        tabs: PropTypes.array,
     };
 
     componentDidMount() {
@@ -37,12 +39,18 @@ class TabBar extends React.Component {
             },100)
     }
 
+    componentWillUpdate(){
+
+    }
+
     _setAnimationValue({ value, }) {
     }
 
 
     _onIconPress(i) {
         this.props.goToPage(i);
+        if (Platform.OS === 'android' && this.props.asyncRender)
+            DeviceEventEmitter.emit('tabChanged', i);
     }
 
     _getMore() {
@@ -85,7 +93,7 @@ class TabBar extends React.Component {
                         return <TouchableOpacity ref={(component) => this.tabComponent.push(component)}
                                                  key={tab} onPress={() => this._onIconPress(i)}
                                                  style={[styles.tab,{backgroundColor: (this.props.activeTab === i? '#f1f1f1': '#fff')}]}>
-                            <Text style={{fontSize: 25}}>{this.props.tabs[i]}</Text>
+                            <Text style={styles.emoji }>{this.props.tabs[i]}</Text>
                         </TouchableOpacity>;
                     })}
                 </ScrollView>

@@ -5,9 +5,11 @@ import {
     TouchableOpacity,
     Navigator,
     InteractionManager,
-    Platform
+    Platform,
+    DeviceEventEmitter
 } from 'react-native';
 import styles from './style';
+import PropTypes from 'prop-types';
 
 class TabBarDot extends React.Component {
     constructor(props) {
@@ -22,13 +24,19 @@ class TabBarDot extends React.Component {
 
 
     static propTypes = {
-        goToPage: React.PropTypes.func,
-        activeTab: React.PropTypes.number,
-        tabs: React.PropTypes.array,
+        goToPage: PropTypes.func,
+        activeTab: PropTypes.number,
+        tabs: PropTypes.array,
     };
 
     componentDidMount() {
+        const the = this;
         this._listener = this.props.scrollValue.addListener(this._setAnimationValue);
+
+        DeviceEventEmitter.addListener('tabChanged',(tab)=>{
+            the.props.goToPage(0);
+
+        });
     }
 
     _setAnimationValue({ value, }) {
@@ -40,6 +48,10 @@ class TabBarDot extends React.Component {
     }
 
     componentWillReceiveProps(){
+    }
+
+    componentDidUpdate(){
+        //this.props.goToPage(this.props.activeTab);
     }
 
     render() {
