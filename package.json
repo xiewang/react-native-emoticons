@@ -26,7 +26,7 @@
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react-native-fetch-blob": "^0.10.5",
-    "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-scrollable-tab-view": "^1.0.0",
     "string.fromcodepoint": "^0.2.1"
   }
 }
