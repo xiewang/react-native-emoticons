@@ -100,7 +100,7 @@ class Emoticons extends React.Component {
             {
                 duration: 300,
                 toValue: this.props.show ? 0 : -300,
-                useNativeDriver: true,
+                useNativeDriver: false,
             }
         ).start();
         Animated.timing(
@@ -108,7 +108,7 @@ class Emoticons extends React.Component {
             {
                 duration: 300,
                 toValue: this.state.showWV ? 0 : -height,
-                useNativeDriver: true,
+                useNativeDriver: false,
             }
         ).start();
     }
