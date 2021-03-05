@@ -99,14 +99,16 @@ class Emoticons extends React.Component {
             this.state.position,
             {
                 duration: 300,
-                toValue: this.props.show ? 0 : -300
+                toValue: this.props.show ? 0 : -300,
+                useNativeDriver: false,
             }
         ).start();
         Animated.timing(
             this.state.wvPosition,
             {
                 duration: 300,
-                toValue: this.state.showWV ? 0 : -height
+                toValue: this.state.showWV ? 0 : -height,
+                useNativeDriver: false,
             }
         ).start();
     }
